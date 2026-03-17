@@ -1,234 +1,123 @@
 # Millimeter-Wave-Radar-Based-Multi-Human-Tracking-and-Fall-Detection-System
-https://img.shields.io/badge/mmWave-Radar-blue
-https://img.shields.io/badge/Python-3.8%2B-3776AB?logo=python&logoColor=white
-https://img.shields.io/badge/Status-Active-success
-https://img.shields.io/badge/License-MIT-green
-A real-time multi-human tracking and fall detection system powered by millimeter-wave radar technology.
-Designed for healthcare, elderly monitoring, smart homes, and privacy-preserving indoor tracking.
-🚫 No cameras
-🌙 Works in darkness
-🔒 Privacy-friendly
-📡 Robust against clutter
-
-📘 Table of Contents
-
-#-features
-#-installation
-#-system-architecture
-#-flowchart
-#-dataset-documentation
-#-running-the-system
-#-visualization-tools
-#-contributing
-#-license
+Overview
+This repository contains the full implementation of our project:
+Millimeter-Wave Radar-Based Multi-Human Tracking and Fall Detection System,
+designed to track multiple humans and detect falls in real time using mmWave radar sensors.
+The system leverages non-intrusive radar-based sensing, eliminating the limitations of wearable devices and camera‑based monitoring such as lighting issues, privacy concerns, and restricted mobility. By processing radar point-cloud data, the framework enables robust multi-human tracking and fall classification in indoor environments.
+Key Features
 
 
-✨ Features
-🧍‍♂️🧍‍♀️ Multi-Human Tracking
-
-DBSCAN / CFAR clustering
-ID assignment
-Smooth trajectory tracking
-
-🤕 Fall Detection
-
-Height change analysis
-Velocity & acceleration monitoring
-Point-cloud dispersion changes
-Threshold-based + ML‑ready architecture
-
-⚙️ Real-Time Pipeline
-
-Point-cloud parsing
-Noise filtering
-Feature extraction
-Live visualization
-
-🧩 Modular System
-Customize:
-
-Tracking algorithm
-Fall detection logic
-Radar configuration
+Multi-Human Tracking
+Detects and tracks multiple individuals simultaneously with high accuracy.
 
 
-📦 Installation
-🔧 1. Clone Repository
-git clone https://github.com/your-username/mmwave-human-tracking-fall-detection.git
-cd mmwave-human-tracking-fall-detection
-``
-🧱 2. Create Virtual Environment
-Shellpython3 -m venv venvsource venv/bin/activate     # Mac/Linuxvenv\Scripts\activate        # WindowsShow more lines
-📚 3. Install Dependencies
+Real-Time Fall Detection
+Classifies human activity states and detects falls based on motion dynamics.
+
+
+Advanced Signal Processing
+Incorporates DBSCAN-based clustering, trajectory estimation, and noise filtering.
+
+
+Privacy-Friendly System
+No cameras required — ensuring high privacy.
+(Note: Any camera module included is used only for ground‑truth validation.)
+
+
+
+Table of Contents
+
+#system-architecture
+#installation-and-usage
+#license
+
+
+System Architecture
+Components
+
+
+Radar Hardware
+System uses Texas Instruments mmWave radar sensors (e.g., IWR6843, AWR series).
+
+
+Real-Time Processing Framework
+
+Radar data parsing
+Point-cloud preprocessing
+Clustering & tracking
+Fall detection
+Optional visualization module
+
+
+
+Workflow
+Below is the system flowchart representing the end‑to‑end processing pipeline:
+Sys_flowchart.jpg
+
+Installation and Usage
+Prerequisites
+Ensure the following are installed:
+
+Python 3.8+
+Required Python libraries:
+numpy
+Send2Trash
+scipy
+pyserial
+matplotlib
+scikit-learn
+opencv-python
+google-api-python-client
+google-auth-oauthlib
+func-timeout
+moviepy
+
+
+
+
+Steps
+1. Clone this repository
+Shellgit clone https://github.com/mambanishan/mmwave-human-tracking-fall-detection.gitcd mmwave-human-tracking-fall-detectionShow more lines
+
+2. Install dependencies
 Shellpip install -r requirements.txtShow more lines
-📡 4. Connect mmWave Radar (Optional)
 
-Place .cfg files in config/
-Update config.json with your port settings
+3. Connect the mmWave radars
+Attach your TI mmWave sensors to your system.
 
+4. Identify radar COM ports
+Check the port numbers assigned to:
 
-📐 System Architecture
-+------------------+         +------------------+         +------------------+
-|   mmWave Radar   | ----->  | Data Interface   | ----->  | Preprocessing    |
-| (TI IWR/AWR)     |         | (UART/Serial)    |         |  Noise Filtering |
-+------------------+         +------------------+         +------------------+
-                                                                   |
-                                                                   v
-                                                          +------------------+
-                                                          |  Clustering      |
-                                                          | (DBSCAN/CFAR)    |
-                                                          +------------------+
-                                                                   |
-                                                                   v
-                                                          +------------------+
-                                                          |   Tracking       |
-                                                          |  ID Assignment   |
-                                                          +------------------+
-                                                                   |
-                                                                   v
-                                                          +------------------+
-                                                          | Fall Detection   |
-                                                          +------------------+
-                                                                   |
-                                                                   v
-                                                          +------------------+
-                                                          | Visualization    |
-                                                          +------------------+
+cfg_port_name
+data_port_name
 
+You can find them via:
 
-🔁 Flowchart: Tracking + Fall Detection
-+-----------------------------+
-|         Start System        |
-+--------------+--------------+
-               |
-               v
-+-----------------------------+
-| Read Radar Point Cloud      |
-+--------------+--------------+
-               |
-               v
-+-----------------------------+
-| Preprocess Data             |
-+--------------+--------------+
-               |
-               v
-+-----------------------------+
-| Cluster Points (DBSCAN)     |
-+--------------+--------------+
-               |
-               v
-+-----------------------------+
-| Track Objects (IDs)         |
-+--------------+--------------+
-               |
-               v
-+-----------------------------+
-| Extract Movement Features   |
-+--------------+--------------+
-               |
-               v
-     +--------[ Fall? ]--------+
-     |           |             |
-     | Yes       | No          |
-     v           v             |
-+-------------+  +-------------+
-| Fall Alert! |  | Continue    |
-| Log Event   |  | Monitoring  |
-+-------------+  +-------------+
+Device Manager (Windows)
+ls /dev/tty* (Linux/Mac)
 
 
-📁 Dataset Documentation
-📂 Folder Structure
-data/
- ├── session_01/
- │     ├── pointcloud_0001.csv
- │     ├── pointcloud_0002.csv
- │     ├── labels.csv
- │     └── metadata.json
- ├── session_02/
- └── ...
+5. Configure radar parameters
+Navigate to the configuration folder:
+Shellcd cfgShow more lines
+Open config_demo.py and update:
 
-📌 Point-Cloud Format (pointcloud_XXXX.csv)
+cfg_port_name
+data_port_name
 
+for each radar in RADAR_CFG_LIST.
 
+6. Run the main system
+Return to the root folder and start the system:
+Shellpython main.pyShow more lines
 
+License
+This project is licensed under the MIT License.
+You are free to:
 
+Use
+Modify
+Distribute
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-ColumnDescriptionxX coordinate (m)yY coordinate (m)zZ coordinate (m)dopplerRadial velocitysnrSignal-to-noise ratio
-🏷️ Labels (labels.csv)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-FieldMeaningframe_idFrame numbernum_peopleDetected humansfall_event0=no fall, 1=fallbounding_idsOptional list of IDs
-
-🚀 Running the System
-Start main pipeline:
-Shellpython main.py --config config/config.jsonShow more lines
-
-📊 Visualization Tools
-Launch real-time viewer:
-Shellpython visualize.pyShow more lines
-Features:
-
-Live 3D scatter plot
-Trajectory trails
-Fall events highlighted
-
-
-🤝 Contributing
-PRs are welcome!
-You can improve:
-
-Tracking filters
-Machine learning models
-Visualization UI
-
-
-📜 License
-MIT License — free for personal + commercial use.
+the project, as long as you include the original copyright notice.
+See the full license in the LICENSE file.
